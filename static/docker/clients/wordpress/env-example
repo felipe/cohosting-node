@@ -1,0 +1,7 @@
+# Save this as `.env`
+ADMIN_EMAIL=
+TLD=
+DB=
+
+DB_PASSWORD=
+DB_ROOT_PASSWORD=

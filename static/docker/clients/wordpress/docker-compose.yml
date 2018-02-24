@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+  ## Wordpress
+  wp:
+     depends_on:
+       - db
+     build: ./s9-wp-cli
+     image: s9wp:1.0.0
+     restart: always
+     volumes:
+       - ./data/${DB}:/var/www/html/wp-content
+     environment:
+       HTTPS_METHOD: redirect
+       VIRTUAL_HOST: ${TLD}
+       LETSENCRYPT_HOST: ${TLD}
+       LETSENCRYPT_EMAIL: ${ADMIN_EMAIL}
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_NAME: wordpress
+       WORDPRESS_DB_USER: wordpress
+       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+       WORDPRESS_TABLE_PREFIX: ${DB}_
+
+  ## Database
+  db:
+     image: mysql
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: ${DB_PASSWORD}
+
+volumes:
+  db_data:
+
+networks:
+  default:
+    external:
+      name: back-end
