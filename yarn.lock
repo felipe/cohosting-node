@@ -2232,6 +2232,14 @@ fs-extra@^4.0.0, fs-extra@^4.0.2:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
+fs-extra@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-5.0.0.tgz#414d0110cdd06705734d055652c5411260c31abd"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
 fs-plus@2.9.3:
   version "2.9.3"
   resolved "https://registry.yarnpkg.com/fs-plus/-/fs-plus-2.9.3.tgz#75e6d7c57e45364955a1cfbfc563fc5820e0cff2"
@@ -3608,6 +3616,10 @@ nan@^2.0.5, nan@^2.3.0:
 ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
+
+node-cmd-promise@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-cmd-promise/-/node-cmd-promise-1.0.0.tgz#1ec29f8b19841c8ab0332e619a383383b6261cfe"
 
 node-fetch@^1.0.1:
   version "1.7.3"

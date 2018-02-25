@@ -10,3 +10,8 @@ export function builder (question: string, choices: Array<Choice>) {
   if (index === -1) { process.exit() }
   return choices[index].value
 }
+
+export function inline (question: string) {
+  var response = readlineSync.question("\n"+question+" ");
+  return response
+}
