@@ -55,11 +55,11 @@
     "node": ">=4.5"
   },
   "devDependencies": {
-    "@types/node": "^8.0.4",
+    "@types/node": "^9.4.6",
     "atom-ide-ui": "^0.5.0",
-    "ava": "^0.21.0",
-    "browserify": "^14.1.0",
-    "codecov": "^2.2.0",
+    "ava": "^0.25.0",
+    "browserify": "^16.1.0",
+    "codecov": "^3.0.0",
     "concurrently": "^3.4.0",
     "cpx": "^1.5.0",
     "dockerode": "^2.5.4",
@@ -71,7 +71,7 @@
     "nyc": "^11.0.3",
     "opn-cli": "^3.1.0",
     "readline-sync": "^1.4.9",
-    "rollup": "^0.44.0",
+    "rollup": "^0.56.3",
     "rollup-plugin-alias": "^1.2.0",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-json": "^2.3.0",
@@ -82,8 +82,8 @@
     "standard-version": "^4.0.0",
     "trash-cli": "^1.4.0",
     "tslint": "^5.4.3",
-    "tslint-config-standard": "^6.0.1",
-    "typedoc": "^0.8.0",
+    "tslint-config-standard": "^7.0.0",
+    "typedoc": "^0.10.0",
     "typescript": "^2.4.1"
   },
   "nyc": {
