@@ -86,27 +86,6 @@
     "typedoc": "^0.8.0",
     "typescript": "^2.4.1"
   },
-  "keywords": [
-    "async",
-    "ava",
-    "await",
-    "boilerplate",
-    "conventional-changelog",
-    "ES6",
-    "ES7",
-    "library",
-    "javascript-modules",
-    "node",
-    "nyc",
-    "rollup",
-    "starter",
-    "template",
-    "tree-shaking",
-    "tslint",
-    "typedoc",
-    "typescript",
-    "typings"
-  ],
   "nyc": {
     "exclude": [
       "**/*.spec.js",
@@ -121,6 +100,8 @@
     ]
   },
   "dependencies": {
+    "fs-extra": "^5.0.0",
+    "node-cmd-promise": "^1.0.0",
     "tslib": "^1.6.0"
   }
 }
