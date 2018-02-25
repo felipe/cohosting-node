@@ -8,7 +8,7 @@
   "browser": "build/browser/index.js",
   "repository": "https://github.com/bitjson/cohosting-node",
   "author": "Felipe Oduardo Sierra (felipe@solutionnine.com)",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "info": "npm-scripts-info",
     "build": "trash build && yarn build:main && yarn build:static && yarn build:module && yarn build:browser-deps && yarn build:browser && yarn build:browser-cjs && yarn build:resolve-sourcemaps",
