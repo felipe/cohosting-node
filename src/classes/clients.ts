@@ -1,7 +1,4 @@
-import * as fs from 'fs-extra'
 import * as Selector from '../lib/selector'
-
-import { Choice } from '../objects/choice'
 
 import { Builds } from '../classes/builds'
 import { Docker } from '../classes/docker'
@@ -15,21 +12,11 @@ export class Clients extends Builds {
     super(docker, 'clients')
   }
 
-  private async init () {
-    if(this.availableClients.length === 0) {
-      this.availableClients = await super.fetchAvailableBuilds()
-    }
-    if(this.current === '') {
-      // Read a json file
-      //this.current = await super.fetchCurrentBuild()
-    }
-  }
-
   public async set () {
     await this.init()
-    if(this.current === '') {
+    if (this.current === '') {
       let client = Selector.builder('Pick a client',super.getAvailableChoices(this.availableClients))
-      let name = Selector.inline('What name should it use? (ex: domain.com)').replace(".","").replace(" ","")
+      let name = Selector.inline('What name should it use? (ex: domain.com)').replace('.','').replace(' ','')
       await super.prepareBuild(client, name)
       await super.performBuild(client, name)
     }
@@ -50,7 +37,16 @@ export class Clients extends Builds {
 
   public async printAvailableHosts () {
     await this.init()
-    console.log("\n", this.availableClients)
+    console.log('\n', this.availableClients)
   }
 
+  private async init () {
+    if (this.availableClients.length === 0) {
+      this.availableClients = await super.fetchAvailableBuilds()
+    }
+    if (this.current === '') {
+      // Read a json file
+      // this.current = await super.fetchCurrentBuild()
+    }
+  }
 }

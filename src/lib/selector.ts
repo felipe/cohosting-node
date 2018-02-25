@@ -12,6 +12,6 @@ export function builder (question: string, choices: Array<Choice>) {
 }
 
 export function inline (question: string) {
-  var response = readlineSync.question("\n"+question+" ");
+  let response = readlineSync.question('\n' + question + ' ')
   return response
 }
