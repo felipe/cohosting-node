@@ -3140,7 +3140,7 @@ npm-run-path@^2.0.0:
   dependencies:
     path-key "^2.0.0"
 
-npm-scripts-info@^0.3.6:
+npm-scripts-info@^0.3.7:
   version "0.3.7"
   resolved "https://registry.yarnpkg.com/npm-scripts-info/-/npm-scripts-info-0.3.7.tgz#ed1cf262e799f10b27898f6989bf89e660a9ec7e"
   dependencies:

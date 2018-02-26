@@ -1,4 +1,4 @@
-import * as Selector from '../lib/selector'
+import { Selector } from '../lib/selector'
 
 import { Builds } from '../classes/builds'
 import { Docker } from '../classes/docker'

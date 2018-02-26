@@ -1,11 +1,10 @@
 import * as Table from 'easy-table'
 
-import * as Selector from './lib/selector'
-
 import { Docker } from './classes/docker'
 import { Hosts } from './classes/hosts'
 import { Clients } from './classes/clients'
 
+import { Selector } from './lib/selector'
 
 import { Choice } from './objects/choice'
 import { Container } from './objects/container'
@@ -38,6 +37,8 @@ let entryPoint = () => {
         .then(()=>{ entryPoint() })
       break
     case 'remove':
+      docker.selectDockerGroupings()
+        .then(()=>{ entryPoint() })
       break
     case 'stop':
       break
