@@ -23,7 +23,7 @@ export class Builds {
   }
 
   public async fetchAvailableBuilds () {
-    return new Promise<Array<string>> (resolve => {
+    return new Promise<Array<string>>(resolve => {
       let builds: Array<string> = []
       return fs.readdir('./build/main/docker/' + this.type + '/')
         .then(items => {
@@ -39,7 +39,7 @@ export class Builds {
   }
 
   public async prepareBuild (build: string, name?: string) {
-    return new Promise (resolve => {
+    return new Promise(resolve => {
       return fs.mkdirs('./docker/' + this.getBuildPath(name ? name : build) + '/')
         .then(() => {
           return fs.copy('./build/main/docker/' + this.type + '/' + build, './docker/' + this.getBuildPath(name ? name : build) + '/')
@@ -51,7 +51,7 @@ export class Builds {
   }
 
   public async performBuild (build: string, name?: string) {
-    return new Promise (resolve => {
+    return new Promise(resolve => {
       return cmd('cd ./docker/' + this.getBuildPath(name ? name : build) + '/ && docker-compose up -d')
         .then(stdout => {
           if (name) {

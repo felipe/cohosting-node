@@ -4,7 +4,7 @@ import * as Dockerode from 'dockerode'
 import { Container } from '../objects/container'
 
 export class Docker {
-  private docker = new Dockerode ()
+  private docker = new Dockerode()
   private containers: Array<Container> = []
 
   public async getContainers () {

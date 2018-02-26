@@ -28,7 +28,6 @@ const makeTransform = (rootDir, buildPath, specPath) => {
 // copy, then watch for changes to the tests
 const testsFromRoot = 'build/main/**/*.spec.js';
 const watchMode = process.argv.indexOf('-w') !== -1 ? true : false;
-const browserTests = process.argv.indexOf('--no-browser') !== -1 ? true : false;
 const task = watchMode ? cpx.watch : cpx.copy;
 
 const rootDir = path.resolve('.');
@@ -40,14 +39,3 @@ task(testsFromRoot, 'test/main', {
     mainBuildPath,
     path.resolve(specPath))
 });
-
-if (!browserTests) {
-  const browserBuildPath = path.resolve(pkg.browser);
-
-  task(testsFromRoot, 'test/browser', {
-    transform: (specPath) => makeTransform(
-      rootDir,
-      browserBuildPath.replace('.js', '.cjs.js'),
-      path.resolve(specPath))
-  });
-}
