@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/solution-nine/cohosting-node.svg?branch=master)](https://travis-ci.org/solution-nine/cohosting-node)
+[![Build Status](https://travis-ci.org/solution-nine/cohosting-node.svg?branch=master)](https://travis-ci.org/solution-nine/cohosting-node) [![codecov](https://codecov.io/gh/solution-nine/cohosting-node/branch/master/graph/badge.svg)](https://codecov.io/gh/solution-nine/cohosting-node)
 
 # CoHosting-node
 Manager for CoHosting nodes
