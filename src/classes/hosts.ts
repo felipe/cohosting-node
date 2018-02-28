@@ -5,8 +5,8 @@ import { Docker } from '../classes/docker'
 
 export class Hosts extends Builds {
 
-  current: String = ''
-  availableHosts: Array<string> = []
+  private current: string = ''
+  private availableHosts: Array<string> = []
 
   constructor (docker: Docker) {
     super(docker, 'hosts')
@@ -16,9 +16,13 @@ export class Hosts extends Builds {
     await this.init()
     if (this.current === '') {
       let host = Selector.builder('Pick a base host',super.getAvailableChoices(this.availableHosts))
-      await super.prepareBuild(host)
-      await super.performBuild(host)
+      await this.makeSet(host)
     }
+  }
+
+  public async makeSet (host: string) {
+    await super.prepareBuild(host)
+    await super.performBuild(host)
   }
 
   public async get () {
@@ -39,13 +43,17 @@ export class Hosts extends Builds {
     console.log('\n', this.availableHosts)
   }
 
+  private async getCurrentHost () {
+    let builds = await super.fetchCurrentBuilds()
+    return (typeof builds['hosts'] === 'undefined') ? '' : builds['hosts']
+  }
+
   private async init () {
     if (this.availableHosts.length === 0) {
       this.availableHosts = await super.fetchAvailableBuilds()
     }
     if (this.current === '') {
-      // Read a json file
-      // this.current = await super.fetchCurrentBuild()
+      this.current = await this.getCurrentHost()
     }
   }
 }

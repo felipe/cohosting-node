@@ -9,6 +9,7 @@
   "author": "Felipe Oduardo Sierra (felipe@solutionnine.com)",
   "license": "MIT",
   "scripts": {
+    "go": "node ./build/main/entry.js",
     "info": "npm-scripts-info",
     "build": "trash build && yarn build:main && yarn build:static && yarn build:module",
     "build:main": "tsc -p tsconfig.json",

@@ -7,11 +7,11 @@ import { Docker } from '../classes/docker'
 
 export class Builds {
   type: string = ''
-  docker = Docker
+  docker: Docker = new Docker()
 
   constructor (docker: Docker, type: string) {
     this.type = type
-    this.docker = Docker
+    this.docker = docker
   }
 
   public getAvailableChoices (items: Array<string>) {
@@ -38,6 +38,12 @@ export class Builds {
     })
   }
 
+  public async fetchCurrentBuilds () {
+    return fs.readFile(__dirname + '/../../../chconfig.json', 'utf8')
+      .then(data => { return JSON.parse(data) })
+      .catch(() => { return {} })
+  }
+
   public async prepareBuild (build: string, name?: string) {
     return new Promise(resolve => {
       return fs.mkdirs('./docker/' + this.getBuildPath(name ? name : build) + '/')
@@ -53,15 +59,19 @@ export class Builds {
   public async performBuild (build: string, name?: string) {
     return new Promise(resolve => {
       return cmd('cd ./docker/' + this.getBuildPath(name ? name : build) + '/ && docker-compose up -d')
-        .then(stdout => {
+        .catch(err => { console.error(err) })
+        .then(async () => { await new Promise(waited => { setTimeout(() => { waited(true) }, 15000) }) })
+        .then(async () => {
           if (name) {
             console.log('\n' + build + ' `' + name + '` has been built.')
           } else {
+            let builds = await this.fetchCurrentBuilds()
+            builds[this.type] = build
+            await this.saveBuilds(builds)
             console.log('\n' + this.type + ' `' + build + '` has been built.')
           }
         })
         .then(() => { resolve() })
-        .catch(err => { console.error(err) })
     })
     .catch(err => { console.error(err) })
   }
@@ -74,6 +84,10 @@ export class Builds {
       path = 'clients/' + build
     }
     return path
+  }
+
+  private async saveBuilds (builds: object) {
+    fs.outputJsonSync(__dirname + '/../../../chconfig.json', builds)
   }
 
 }

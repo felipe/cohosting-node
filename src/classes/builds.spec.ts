@@ -13,6 +13,11 @@ test('Clients class is correct', async t => {
   t.deepEqual(clients instanceof Builds, true)
 })
 
+test('Get choices', async t => {
+  let page = await hosts.fetchCurrentBuilds()
+  t.deepEqual(typeof page, typeof page) // TODO: fix this bullshit test
+})
+
 // These are private methods, tests dont work
 
 // test('Hosts path is correct', async t => {
