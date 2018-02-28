@@ -41,6 +41,8 @@ let entryPoint = () => {
         .then(()=>{ entryPoint() })
       break
     case 'stop':
+      docker.stopServer()
+        .then(response => { if (!response) { entryPoint() } }) 
       break
     default:
       console.log('Pretty sure this was supposed to do something exciting.')

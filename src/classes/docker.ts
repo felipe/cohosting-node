@@ -14,9 +14,8 @@ export class Docker {
   private groupingChoices: Array<Choice> = []
   private groupValues = {}
 
-  public async getContainers () {
-    let containers = await this.updateContainers()
-    return containers
+  public getContainers () {
+    return this.updateContainers()
   }
 
   public async printContainers () {
@@ -29,7 +28,13 @@ export class Docker {
   }
 
   public async selectDockerGroupings () {
-    await this.updateContainers()
+    let containers = await this.updateContainers()
+
+    // Exit early if no containers are active
+    if (!containers || containers.length === 0) {
+      console.log('\nNo active containers.')
+      return false
+    }
 
     let method = Selector.builder('How are we removing containers?',[ new Choice('Individually','one'), new Choice('Grouped','many') ])
 
@@ -42,6 +47,24 @@ export class Docker {
       case 'many':
         console.log('Group `' + remove + '`: ', this.groupValues[remove])
         break
+    }
+  }
+
+  public async stopServer () {
+    let containers = await this.updateContainers()
+
+    // Exit early if no containers are active
+    if (!containers || containers.length === 0) {
+      console.log('\nNo active containers.')
+      return false
+    }
+
+    if (Selector.YNQuestion('Stop all running containers?')) {
+      this.stopContainers()
+      return true
+    } else {
+      this.stopContainer('0')
+      return false
     }
   }
 
@@ -67,7 +90,7 @@ export class Docker {
       })
     })
     .then(() => { return this.containers })
-    .catch(err => { console.log('Code Error :: ', err) })
+    .catch(err => { console.error('Code Error :: ', err) })
   }
 
   private addContainer (container: Container) {
@@ -88,6 +111,19 @@ export class Docker {
 
   private addContainerChoice (choice: Choice) {
     this.containerChoices.push(choice)
+  }
+
+  private stopContainers () {
+    this.docker.listContainers((err, containers) => {
+      if (err) { console.error(err) }
+      containers.forEach((containerInfo) => {
+        this.docker.getContainer(containerInfo.Id).stop()
+      })
+    })
+  }
+
+  private stopContainer (containerId: string) {
+    this.docker.getContainer(containerId).stop()
   }
 
 }
