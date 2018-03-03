@@ -7,6 +7,8 @@ coverage
 .nyc_output
 *.log
 
-docker
+/docker
 .*.dockerfile
 .dockerignore
+
+/chconfig.json
