@@ -36,17 +36,32 @@ export class Docker {
       return false
     }
 
-    let method = Selector.builder('How are we removing containers?',[ new Choice('Individually','one'), new Choice('Grouped','many') ])
+    let method = Selector.builder('How are we removing containers?',[ new Choice('Individually','one'), new Choice('Grouped','many'), new Choice('All','all') ])
 
-    let removalText = 'Which container ' + (method === 'one' ? '' : 'group ') + 'should we remove?'
-    let remove = Selector.builder(removalText, (method === 'one' ? this.containerChoices : this.groupingChoices))
-    switch (method) {
-      case 'one':
-        console.log('Single: ', remove)
-        break
-      case 'many':
-        console.log('Group `' + remove + '`: ', this.groupValues[remove])
-        break
+    if (method !== 'all') {
+
+      let removalText = 'Which container ' + (method === 'one' ? '' : 'group ') + 'should we remove?'
+      let remove = Selector.builder(removalText, (method === 'one' ? this.containerChoices : this.groupingChoices))
+
+      switch (method) {
+        case 'one':
+          console.log('Single: ', remove)
+          this.stopContainer(remove)
+          this.removeContainer(remove)
+          break
+        case 'many':
+          console.log('Group `' + remove + '`: ', this.groupValues[remove])
+          this.stopContainers(this.groupValues[remove])
+          this.removeContainers(this.groupValues[remove])
+          break
+      }
+
+    } else {
+
+      console.log('All:')
+      this.stopContainers()
+      this.removeContainers()
+
     }
   }
 
@@ -62,9 +77,6 @@ export class Docker {
     if (Selector.YNQuestion('Stop all running containers?')) {
       this.stopContainers()
       return true
-    } else {
-      this.stopContainer('0')
-      return false
     }
   }
 
@@ -113,17 +125,42 @@ export class Docker {
     this.containerChoices.push(choice)
   }
 
-  private stopContainers () {
-    this.docker.listContainers((err, containers) => {
-      if (err) { console.error(err) }
-      containers.forEach((containerInfo) => {
-        this.docker.getContainer(containerInfo.Id).stop()
+  private stopContainers (containers?: Array<string>) {
+    if (containers) {
+      containers.forEach(container => {
+        this.stopContainer(container)
       })
-    })
+    } else {
+      this.docker.listContainers((err, containers) => {
+        if (err) { console.error(err) }
+        containers.forEach((containerInfo) => {
+          this.stopContainer(containerInfo.Id)
+        })
+      })
+    }
   }
 
   private stopContainer (containerId: string) {
     this.docker.getContainer(containerId).stop()
+  }
+
+  private removeContainers (containers?: Array<string>) {
+    if (containers) {
+      containers.forEach(container => {
+        this.removeContainer(container)
+      })
+    } else {
+      this.docker.listContainers((err, containers) => {
+        if (err) { console.error(err) }
+        containers.forEach((containerInfo) => {
+          this.removeContainer(containerInfo.Id)
+        })
+      })
+    }
+  }
+
+  private removeContainer (containerId: string) {
+    this.docker.getContainer(containerId).remove()
   }
 
 }

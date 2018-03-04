@@ -1,5 +1,5 @@
 import * as fs from 'fs-extra'
-import * as cmd from 'node-cmd-promise'
+import * as compose from 'docker-compose'
 
 import { Selector } from '../lib/selector'
 
@@ -70,23 +70,20 @@ export class Builds {
   }
 
   public async performBuild (build: string, name?: string) {
-    return new Promise(resolve => {
-      return cmd('cd ./docker/' + this.getBuildPath(name ? name : build) + '/ && docker-compose up -d')
-        .catch(err => { console.error(err) })
-        .then(async () => { await new Promise(waited => { setTimeout(() => { waited(true) }, 15000) }) })
-        .then(async () => {
-          if (name) {
-            console.log('\n' + build + ' `' + name + '` has been built.')
-          } else {
-            let builds = await this.fetchCurrentBuilds()
-            builds[this.type] = build
-            await this.saveBuilds(builds)
-            console.log('\n' + this.type + ' `' + build + '` has been built.')
-          }
-        })
-        .then(() => { resolve() })
-    })
-    .catch(err => { console.error(err) })
+    compose.up({ cwd: './docker/' + this.getBuildPath(name ? name : build) + '/' })
+      .then(async () => { return new Promise(waited => { setTimeout(() => { waited(true) }, 15000) }) })
+      .then(async () => {
+        if (name) {
+          console.log('\n' + build + ' `' + name + '` has been built.')
+        } else {
+          let builds = await this.fetchCurrentBuilds()
+          builds[this.type] = build
+          await this.saveBuilds(builds)
+          console.log('\n' + this.type + ' `' + build + '` has been built.')
+        }
+      })
+      .catch(err => { console.error(err) })
+
   }
 
   private getBuildPath (build: string) {
