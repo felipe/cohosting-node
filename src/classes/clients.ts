@@ -16,8 +16,9 @@ export class Clients extends Builds {
     await this.init()
     if (this.current === '') {
       let client = Selector.builder('Pick a client',super.getAvailableChoices(this.availableClients))
-      let name = Selector.inline('What name should it use? (ex: domain.com)').replace('.','').replace(' ','')
+      let name = Selector.inline('What name should it use? (ex: domain.com)').replace('.','').replace(' ','').toLowerCase()
       await super.prepareBuild(client, name)
+      await super.defineEnvironment(name)
       await super.performBuild(client, name)
     }
   }

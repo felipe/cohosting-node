@@ -1,9 +1,12 @@
 import * as fs from 'fs-extra'
 import * as cmd from 'node-cmd-promise'
 
+import { Selector } from '../lib/selector'
+
 import { Choice } from '../objects/choice'
 
 import { Docker } from '../classes/docker'
+
 
 export class Builds {
   type: string = ''
@@ -39,8 +42,8 @@ export class Builds {
   }
 
   public async fetchCurrentBuilds () {
-    return fs.readFile(__dirname + '/../../../chconfig.json', 'utf8')
-      .then(data => { return JSON.parse(data) })
+    return fs.readJson(__dirname + '/../../../chconfig.json')
+      .then(data => { return data })
       .catch(() => { return {} })
   }
 
@@ -54,6 +57,17 @@ export class Builds {
         .catch(err => { console.error(err) })
     })
     .catch(err => { console.error(err) })
+  }
+
+  public async defineEnvironment (name: string) {
+    return fs.readJson('./docker/clients/' + name + '/env.json')
+      .then(data => {
+        data['fields'].forEach(field => {
+          let response = Selector.inline('Set value for `' + field + '`')
+          fs.appendFileSync('./docker/clients/' + name + '/.env', field + '=' + response + '\n');
+        })
+      })
+      .catch(err => { /* File does not have to exist. Doing nothing here.*/ })
   }
 
   public async performBuild (build: string, name?: string) {
