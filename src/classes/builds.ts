@@ -7,7 +7,6 @@ import { Choice } from '../objects/choice'
 
 import { Docker } from '../classes/docker'
 
-
 export class Builds {
   type: string = ''
   docker: Docker = new Docker()
@@ -64,10 +63,10 @@ export class Builds {
       .then(data => {
         data['fields'].forEach(field => {
           let response = Selector.inline('Set value for `' + field + '`')
-          fs.appendFileSync('./docker/clients/' + name + '/.env', field + '=' + response + '\n');
+          fs.appendFileSync('./docker/clients/' + name + '/.env', field + '=' + response + '\n')
         })
       })
-      .catch(err => { /* File does not have to exist. Doing nothing here.*/ })
+      .catch(err => { console.error(err ? '' : '') /* File does not have to exist. Doing nothing here.*/ })
   }
 
   public async performBuild (build: string, name?: string) {
