@@ -27,7 +27,7 @@ export class Builds {
   public async fetchAvailableBuilds () {
     return new Promise<Array<string>>(resolve => {
       let builds: Array<string> = []
-      return fs.readdir('./build/main/docker/' + this.type + '/')
+      return fs.readdir(__dirname + '/../static/docker/' + this.type + '/')
         .then(items => {
           for (let i = 0; i < items.length; i++) {
             if (items[i].charAt(0) !== '.') {

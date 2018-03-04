@@ -31,12 +31,12 @@ export class Clients extends Builds {
   /**
    * Returns an array of all the available hosts
    */
-  public async getAvailableHosts () {
+  public async getAvailableClients () {
     await this.init()
     return this.availableClients
   }
 
-  public async printAvailableHosts () {
+  public async printAvailableClients () {
     await this.init()
     console.log('\n', this.availableClients)
   }

@@ -5,20 +5,17 @@ let docker = new Docker()
 let hosts = new Builds(docker,'hosts')
 let clients = new Builds(docker,'clients')
 
-test('Hosts class is correct', async t => {
+test('Hosts class is correct', t => {
   t.deepEqual(hosts instanceof Builds, true)
 })
 
-test('Clients class is correct', async t => {
+test('Clients class is correct', t => {
   t.deepEqual(clients instanceof Builds, true)
 })
 
-test('Get choices', async t => {
-  let page = await hosts.fetchCurrentBuilds()
-  t.deepEqual(typeof page, typeof page) // TODO: fix this bullshit test
+test('Get build `hosts` choices', async t => {
+  t.deepEqual((Object.keys(await hosts.fetchAvailableBuilds()).length > 0), true)
 })
-
-// These are private methods, tests dont work
 
 // test('Hosts path is correct', async t => {
 //   t.deepEqual(hosts.getBuildPath('test'), 'hosts')
