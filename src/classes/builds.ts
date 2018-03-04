@@ -27,7 +27,13 @@ export class Builds {
   public async fetchAvailableBuilds () {
     return new Promise<Array<string>>(resolve => {
       let builds: Array<string> = []
-      return fs.readdir(__dirname + '/../static/docker/' + this.type + '/')
+      return fs.readdir(__dirname + '/../docker/' + this.type + '/')
+        .catch(() => {
+          return fs.readdir(__dirname + '/../static/docker/' + this.type + '/')
+        })
+        .catch(() => {
+          return []
+        })
         .then(items => {
           for (let i = 0; i < items.length; i++) {
             if (items[i].charAt(0) !== '.') {
@@ -66,7 +72,7 @@ export class Builds {
           fs.appendFileSync('./docker/clients/' + name + '/.env', field + '=' + response + '\n')
         })
       })
-      .catch(err => { console.error(err ? '' : '') /* File does not have to exist. Doing nothing here.*/ })
+      .catch(() => { /* File does not have to exist. Doing nothing here.*/ })
   }
 
   public async performBuild (build: string, name?: string) {
@@ -85,6 +91,10 @@ export class Builds {
       .catch(err => { console.error(err) })
 
   }
+
+  /* test-code */
+  _testGetBuildPath = (build: string) => { return this.getBuildPath(build) }
+  /* end-test-code */
 
   private getBuildPath (build: string) {
     let path = ''

@@ -17,10 +17,6 @@ test('Get build `hosts` choices', async t => {
   t.deepEqual((Object.keys(await hosts.fetchAvailableBuilds()).length > 0), true)
 })
 
-// test('Hosts path is correct', async t => {
-//   t.deepEqual(hosts.getBuildPath('test'), 'hosts')
-// })
-//
-// test('Hosts path is correct', async t => {
-//   t.deepEqual(clients.getBuildPath('test'), 'clients/test')
-// })
+test('Hosts path is correct', async t => {
+  t.deepEqual(clients._testGetBuildPath('test'), 'clients/test')
+})
