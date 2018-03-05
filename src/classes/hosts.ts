@@ -5,8 +5,8 @@ import { Docker } from '../classes/docker'
 
 export class Hosts extends Builds {
 
-  private current: string = ''
-  private availableHosts: Array<string> = []
+  current: string = ''
+  availableHosts: Array<string> = []
 
   constructor (docker: Docker) {
     super(docker, 'hosts')

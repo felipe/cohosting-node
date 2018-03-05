@@ -8,15 +8,16 @@ test('Class is correct', t => {
   t.deepEqual(hosts instanceof Hosts, true)
 })
 
-// test.serial('Should have no current host', async t => {
-//   let host = await hosts.get()
-//   t.deepEqual(host, '')
-// })
+test('Should have no current host', async t => {
+  let host = await hosts.get()
+  t.deepEqual(host, '')
+})
 
-// test.serial('Should have available hosts', async t => {
-//   let hostsList = await hosts.getAvailableHosts()
-//   t.deepEqual((hostsList.length > 0), true)
-// })
+test('Should have available hosts', async t => {
+  hosts.current = ''
+  let hostsList = await hosts.getAvailableHosts()
+  t.deepEqual((hostsList.length > 0), true)
+})
 
 // test('Should create a host', async t => {
 //   let hostsList = await hosts.getAvailableHosts()
@@ -27,3 +28,9 @@ test('Class is correct', t => {
 //     t.fail()
 //   }
 // })
+
+test('Should print available hosts', async t => {
+  hosts.availableHosts = []
+  await hosts.printAvailableHosts()
+  t.deepEqual((hosts.availableHosts.length > 0), true)
+})

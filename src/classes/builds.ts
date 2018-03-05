@@ -96,6 +96,10 @@ export class Builds {
   _testGetBuildPath = (build: string) => { return this.getBuildPath(build) }
   /* end-test-code */
 
+  /* test-code */
+  _testSaveBuilds = (builds: object) => { return this.saveBuilds(builds) }
+  /* end-test-code */
+
   private getBuildPath (build: string) {
     let path = ''
     if (this.type === 'hosts') {

@@ -8,11 +8,11 @@ import { Choice } from '../objects/choice'
 import { Container } from '../objects/container'
 
 export class Docker {
-  private docker = new Dockerode()
-  private containers: Array<Container> = []
-  private containerChoices: Array<Choice> = []
-  private groupingChoices: Array<Choice> = []
-  private groupValues = {}
+  docker = new Dockerode()
+  containers: Array<Container> = []
+  containerChoices: Array<Choice> = []
+  groupingChoices: Array<Choice> = []
+  groupValues = {}
 
   public getContainers () {
     return this.updateContainers()
