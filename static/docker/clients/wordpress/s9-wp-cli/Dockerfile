@@ -1,4 +1,4 @@
-from wordpress:4.9.2-php7.2-apache
+from wordpress:4.9.4-php7.2-apache
 
 RUN apt-get update && apt-get install -y sudo less mysql-server
 

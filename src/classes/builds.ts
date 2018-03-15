@@ -1,5 +1,6 @@
 import * as fs from 'fs-extra'
 import * as compose from 'docker-compose'
+import * as git from 'simple-git/promise'
 
 import { Selector } from '../lib/selector'
 
@@ -52,11 +53,24 @@ export class Builds {
       .catch(() => { return {} })
   }
 
-  public async prepareBuild (build: string, name?: string) {
+  public async prepareBuild (build: string, name?: string, repo?: string) {
+
+    let cleanName = ''
+    let tld = ''
+    if (name) {
+      cleanName = name.replace('.','').replace(' ','').toLowerCase()
+      tld = name.replace('.com','').replace('.net','').replace('.org','').replace('.co','').replace('.me','')
+    }
+
     return new Promise(resolve => {
-      return fs.mkdirs('./docker/' + this.getBuildPath(name ? name : build) + '/')
+      return fs.mkdirs('./docker/' + this.getBuildPath(name ? cleanName : build) + '/')
         .then(() => {
-          return fs.copy('./build/main/docker/' + this.type + '/' + build, './docker/' + this.getBuildPath(name ? name : build) + '/')
+          return fs.copy('./build/main/docker/' + this.type + '/' + build, './docker/' + this.getBuildPath(name ? cleanName : build) + '/')
+        })
+        .then(() => {
+          if (name && repo) {
+            git().clone(repo, './docker/clients/' + cleanName + '/data/' + tld)
+          }
         })
         .then(() => { resolve() })
         .catch(err => { console.error(err) })
@@ -65,22 +79,38 @@ export class Builds {
   }
 
   public async defineEnvironment (name: string) {
-    return fs.readJson('./docker/clients/' + name + '/env.json')
+
+    let cleanName = ''
+    let tld = ''
+    if (name) {
+      cleanName = name.replace('.','').replace(' ','').toLowerCase()
+      tld = name.replace('.com','').replace('.net','').replace('.org','').replace('.co','').replace('.me','')
+    }
+
+    return fs.readJson('./docker/clients/' + cleanName + '/env.json')
       .then(data => {
         data['fields'].forEach(field => {
           let response = Selector.inline('Set value for `' + field + '`')
-          fs.appendFileSync('./docker/clients/' + name + '/.env', field + '=' + response + '\n')
+          fs.appendFileSync('./docker/clients/' + cleanName + '/.env', field + '=' + response + '\n')
         })
       })
       .catch(() => { /* File does not have to exist. Doing nothing here.*/ })
   }
 
   public async performBuild (build: string, name?: string) {
-    compose.up({ cwd: './docker/' + this.getBuildPath(name ? name : build) + '/' })
+
+    let cleanName = ''
+    let tld = ''
+    if (name) {
+      cleanName = name.replace('.','').replace(' ','').toLowerCase()
+      tld = name.replace('.com','').replace('.net','').replace('.org','').replace('.co','').replace('.me','')
+    }
+
+    compose.up({ cwd: './docker/' + this.getBuildPath(name ? cleanName : build) + '/' })
       .then(async () => { return new Promise(waited => { setTimeout(() => { waited(true) }, 15000) }) })
       .then(async () => {
         if (name) {
-          console.log('\n' + build + ' `' + name + '` has been built.')
+          console.log('\n' + build + ' `' + cleanName + '` has been built.')
         } else {
           let builds = await this.fetchCurrentBuilds()
           builds[this.type] = build
