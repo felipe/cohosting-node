@@ -51,7 +51,7 @@
     "node": ">=4.5"
   },
   "devDependencies": {
-    "@types/node": "^9.4.6",
+    "@types/node": "^10.9.3",
     "atom-ide-ui": "^0.7.2",
     "ava": "^0.25.0",
     "codecov": "^3.0.0",
