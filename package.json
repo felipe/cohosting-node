@@ -5,7 +5,7 @@
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/bitjson/cohosting-node",
+  "repository": "https://github.com/solution-nine/cohosting-node",
   "author": "Felipe Oduardo Sierra (felipe@solutionnine.com)",
   "license": "MIT",
   "scripts": {
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@types/node": "^9.4.6",
-    "atom-ide-ui": "^0.5.0",
+    "atom-ide-ui": "^0.7.2",
     "ava": "^0.25.0",
     "codecov": "^3.0.0",
     "concurrently": "^3.4.0",
